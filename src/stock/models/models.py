@@ -10,7 +10,7 @@ class Brand(models.Model):
         return self.name
 
 
-class Device(models.Model):
+class DeviceType(models.Model):
 
     name = models.CharField(max_length=15)
 
@@ -21,9 +21,9 @@ class Device(models.Model):
 class Modelo(models.Model):
 
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    device = models.ForeignKey(Device, on_delete=models.CASCADE)
+    device = models.ForeignKey(DeviceType, on_delete=models.CASCADE)
 
-    tipe = models.CharField(max_length=15)#????
+    tipe = models.CharField(max_length=15)  # ????
     name = models.CharField(max_length=15)
 
     def __str__(self):

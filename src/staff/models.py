@@ -1,11 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from utils.models import AdvanceInfoModel
 
-class Staff(AbstractUser):
 
-    address = models.CharField(max_length=30, null=True, blank=True)
-    ci = models.IntegerField(unique=True, null=True, blank=True)
-    phone = models.CharField(max_length=15, null=True, blank=True)
-    phone2 = models.CharField(max_length=15, null=True, blank=True)
-    modified = models.DateTimeField(auto_now=True, null=True, blank=True)
+class Staff(AdvanceInfoModel, AbstractUser):
+
+    email = models.EmailField('email address', unique=True, error_messages={
+                              'unique': 'A user with that email already exists.'})
+
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+
+
+def __str__(self):
+    return self.first_name
