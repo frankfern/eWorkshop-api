@@ -1,6 +1,5 @@
 from django.db import models
 
-from stock.models import Device, Brand, Modelo
 from utils.models import StockModel
 
 
@@ -12,7 +11,7 @@ class Product(StockModel):
     )
 
     modelo = models.ForeignKey(
-        Modelo, on_delete=models.CASCADE, blank=True)
+        'stock.DeviceModelo', on_delete=models.CASCADE, blank=True)
 
     state = models.CharField(max_length=30, null=False,
                              choices=STATE, default='disponible')

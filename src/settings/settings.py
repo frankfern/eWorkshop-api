@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
-    'staff',
+
+
+    'staff.apps.StaffConfig',
     'customers',
     'suppliers',
     'stock',

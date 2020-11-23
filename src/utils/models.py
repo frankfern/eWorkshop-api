@@ -1,20 +1,26 @@
 from django.db import models
-from django.core.validators import RegexValidator, validators
-from suppliers.models import Supplier
+from django.core.validators import RegexValidator
 
 
 class TimeModel(models.Model):
 
-    """ bla bla vbla"""
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    """ Model that can be inherit to obtain fields like 
+    create time and modified time"""
+
+    created = models.DateTimeField(
+        'created at', auto_now_add=True, help_text='Date time on which object was created')
+    modified = models.DateTimeField(
+        'modified at ',
+        auto_now=True, help_text='Date time on which object was modified')
 
     class Meta():
         abstract = True
+        ordering = ['-created', '-modified']
+        get_latest_by = 'created'
 
 
 class BasicInfoModel(TimeModel):
-    """ bla bla vbla"""
+    """This model can be inherit in order to obtain  basic info """
     phone_regex = RegexValidator(
         regex=r'\+?2?\d{8-15}$',
         message='Phone number must be enteredin format: +5399999999. Upto 15 digits allowed.'
@@ -22,9 +28,9 @@ class BasicInfoModel(TimeModel):
 
     first_name = models.CharField(max_length=15)
     last_name = models.CharField(max_length=15)
-    phone = models.CharField(
+    phone_number = models.CharField(
         validators=[phone_regex], max_length=17, blank=False)
-    cellphone = models.CharField(
+    cellphone_number = models.CharField(
         validators=[phone_regex], max_length=17, blank=False)
 
     class Meta():
@@ -32,8 +38,9 @@ class BasicInfoModel(TimeModel):
 
 
 class AdvanceInfoModel(BasicInfoModel):
-    """ bla bla vbla"""
-    ci_regex = '{11}\d$'
+    """This model is like BasicInfoModel with address and ci fiels """
+    ci_regex = RegexValidator(
+        regex='\d{1,11}$', message='Ci must have 11 numbers')
 
     address = models.CharField(max_length=30, null=False, blank=False)
     ci = models.PositiveIntegerField(
@@ -54,7 +61,8 @@ class StockModel(TimeModel):
     price = models.FloatField(null=False)
     condition = models.CharField(max_length=30, null=False, choices=CONDITION)
     quantity = models.PositiveIntegerField(null=False)
-    supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT, null=True)
+    supplier = models.ForeignKey(
+        'suppliers.Supplier', on_delete=models.PROTECT, null=True)
 
     class Meta():
         abstract = True

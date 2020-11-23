@@ -37,8 +37,8 @@ class CreateUserForm(UserCreationForm, BaseFrom):
             'email',
             'ci',
             'address',
-            'phone',
-            'phone2',
+            'phone_number',
+            'cellphone_number',
             'groups'
         ]
 
@@ -65,6 +65,6 @@ class ChangeUserForm(UserChangeForm, BaseFrom):
             'email',
             'ci',
             'address',
-            'phone',
-            'phone2',
+            'phone_number',
+            'cellphone_number',
         ]

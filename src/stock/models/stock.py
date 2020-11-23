@@ -1,16 +1,9 @@
 from django.db import models
-from django.db.models.deletion import SET_NULL
+
+from utils.models import TimeModel
 
 
-class Brand(models.Model):
-
-    name = models.CharField(max_length=15)
-
-    def __str__(self):
-        return self.name
-
-
-class DeviceType(models.Model):
+class Brand(TimeModel):
 
     name = models.CharField(max_length=15)
 
@@ -18,13 +11,27 @@ class DeviceType(models.Model):
         return self.name
 
 
-class Modelo(models.Model):
+class DeviceType(TimeModel):
 
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    name = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.name
+
+
+class DeviceModelo(TimeModel):
+
     device = models.ForeignKey(DeviceType, on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
 
-    tipe = models.CharField(max_length=15)  # ????
     name = models.CharField(max_length=15)
 
     def __str__(self):
         return self.name
+
+
+# class SparePartType(TimeModel):
+#     name = models.CharField(max_length=15)
+
+#     def __str__(self):
+#         return self.name
