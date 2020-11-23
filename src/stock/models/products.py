@@ -11,7 +11,7 @@ class Product(StockModel):
     )
 
     modelo = models.ForeignKey(
-        'stock.DeviceModelo', on_delete=models.CASCADE, blank=True)
+        'stock.DeviceModel', on_delete=models.CASCADE, blank=True)
 
     state = models.CharField(max_length=30, null=False,
                              choices=STATE, default='disponible')
