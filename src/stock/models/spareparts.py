@@ -1,6 +1,6 @@
 from django.db import models
 
-from utils.models import StockModel
+from .stock_base_model import StockModel
 
 
 class SparePart(StockModel):
