@@ -7,4 +7,5 @@ from .stock import DeviceType
 from .stock import DeviceModel
 from .stock import SparePartType
 
+from .stock_base_model import BaseStock
 from .stock_base_model import StockModel

@@ -10,9 +10,6 @@ class Product(StockModel):
         ('out_of_stock', 'Agotado'),
     )
 
-    modelo = models.ForeignKey(
-        'stock.DeviceModel', on_delete=models.CASCADE, blank=True)
-
     state = models.CharField(max_length=30, null=False,
                              choices=STATE, default='disponible')
 
