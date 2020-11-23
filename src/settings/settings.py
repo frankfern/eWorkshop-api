@@ -41,10 +41,11 @@ INSTALLED_APPS = [
     'rest_framework',
 
 
-    'staff.apps.StaffConfig',
+    'staff',
     'customers',
     'suppliers',
     'stock',
+    'services',
 ]
 
 AUTH_USER_MODEL = 'staff.Staff'
