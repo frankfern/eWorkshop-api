@@ -1,28 +1,16 @@
 from rest_framework import generics
+
 from ..models import Customer
 from ..serializers import customers
 
 
-class CustomerCreateView(generics.CreateAPIView):
+class CustomerCreateListView(generics.ListCreateAPIView):
     model = Customer
-    serializer_class = customers.CustomerSerializer
-
-
-# class CustomerUpdateView(generics.UpdateAPIView):
-#     model = Customer
-
-
-class CustomerListView(generics.ListAPIView):
-
-    model = Customer
-    serializer_class = customers.CustomerSerializer
+    serializer_class = customers.CustomerCreateSerializer
     queryset = Customer.objects.all()
-    context_object_name = 'Customers'
 
 
-# class CustomerDeleteView(generics.DestroyAPIView):
-#     pass
-
-
-# class CustomerDetailView(generics.RetrieveAPIView):
-#     model = Customer
+class CustomerRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+    model = Customer
+    queryset = Customer.objects.all()
+    serializer_class = customers.CustomerCreateSerializer
