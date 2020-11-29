@@ -1,1 +1,1 @@
-from . import customers_urls
+from . import *
