@@ -22,7 +22,7 @@ class TimeModel(models.Model):
 class BasicInfoModel(TimeModel):
     """This model can be inherit in order to obtain  basic info """
     phone_regex = RegexValidator(
-        regex=r'\+?2?\d{8-15}$',
+        regex=r'\+?1?\d{8-15}$',
         message='Phone number must be enteredin format: +5399999999. Upto 15 digits allowed.'
     )
 

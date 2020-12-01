@@ -1,2 +1,2 @@
 from .staff import Staff
-# from .profile import Profile
+from .profile import Profile

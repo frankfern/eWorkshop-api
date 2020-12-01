@@ -1,17 +1,19 @@
-from rest_framework.generics import ListCreateAPIView
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView, CreateAPIView
 
 from .models import Staff
-from .serializers import CreateStaffSerializaer, ShowStaffSerializaer
+from .serializers import *
 
 
-class StaffListCreateView(ListCreateAPIView):
-    model = Staff
+class StaffCreateView(CreateAPIView):
+    queryset = Staff.objects.all()
     serializer_class = CreateStaffSerializaer
+
+
+class StaffListView(ListAPIView):
+    serializer_class = BaseStaffSerializer
     queryset = Staff.objects.all()
 
 
 class StaffShowView(RetrieveUpdateAPIView):
-    model = Staff
     serializer_class = ShowStaffSerializaer
     queryset = Staff.objects.all()

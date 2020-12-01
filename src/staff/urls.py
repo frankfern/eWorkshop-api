@@ -5,8 +5,8 @@ from . import views
 
 urlpatterns = [
 
-
-    path("", views.StaffListCreateView.as_view(), name="list"),
+    path('register/', views.StaffCreateView.as_view(), name='create'),
+    path("", views.StaffListView.as_view(), name="list"),
 
     path("<str:pk>/", views.StaffShowView.as_view(), name="detail"),
 ]

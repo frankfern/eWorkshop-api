@@ -6,7 +6,7 @@ from utils.models import TimeModel
 class BaseStock(TimeModel):
 
     device_model = models.ForeignKey(
-        'stock.DeviceModel', on_delete=models.CASCADE, null=True)
+        'stock.DeviceModel', on_delete=models.CASCADE, null=True, blank=True)
     description = models.CharField(max_length=100, blank=True)
     sn = models.CharField(max_length=30, null=False, blank=True)
 
@@ -21,6 +21,7 @@ class StockModel(BaseStock):
         ('used', 'De uso')
     )
     price = models.FloatField(null=False)
+
     condition = models.CharField(
         max_length=30, null=False, choices=CONDITION, default='new')
     quantity = models.PositiveIntegerField(null=False)
