@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 
-from .models import Profile
+from ..models import Profile
 
 
 Staff = get_user_model()
