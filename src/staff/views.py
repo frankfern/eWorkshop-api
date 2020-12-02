@@ -1,19 +1,25 @@
-from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView, CreateAPIView
+from rest_framework import viewsets, mixins
 
-from .models import Staff
+from django.contrib.auth import get_user_model
+
 from .serializers import *
+from .mixins import ShowCreateSerializerMixin
 
 
-class StaffCreateView(CreateAPIView):
+Staff = get_user_model()
+
+
+class StaffViewSet(ShowCreateSerializerMixin,
+                   mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.ListModelMixin,
+                   viewsets.GenericViewSet):
+
     queryset = Staff.objects.all()
-    serializer_class = CreateStaffSerializaer
+    list_serializer_class = ListStaffSerializer
+    write_serializer_class = CreateStaffSerializaer
 
-
-class StaffListView(ListAPIView):
-    serializer_class = BaseStaffSerializer
-    queryset = Staff.objects.all()
-
-
-class StaffShowView(RetrieveUpdateAPIView):
-    serializer_class = ShowStaffSerializaer
-    queryset = Staff.objects.all()
+    # def change_password(self, request, pk=None):
+    #     user = self.get_object()
+    #     serializer = StaffPasswordSerializer(data=request.data)

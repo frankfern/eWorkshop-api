@@ -1,16 +1,15 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework import viewsets, mixins
+
 
 from ..models import CustomerDevice
 from ..serializers import devices
 
 
-class DeviceListCreateView(ListCreateAPIView):
-    model = CustomerDevice
-    serializer_class = devices.DevicefSerializer
-    queryset = CustomerDevice.objects.all()
+class DeviceViewSet(mixins.CreateModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
 
-
-class DeviceShowView(RetrieveUpdateAPIView):
-    model = CustomerDevice
     serializer_class = devices.DevicefSerializer
     queryset = CustomerDevice.objects.all()
