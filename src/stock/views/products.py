@@ -1,34 +1,13 @@
-from django.views.generic import CreateView, UpdateView, ListView, DeleteView, DetailView
-from django.urls import reverse_lazy
+from rest_framework import viewsets, mixins
+from ..models import Product
+from ..serializers import products
 
 
-from base.decorators import DynamicOrderingDecorator, GetToPostDecorator, DynamicPaginateBy
-from .models import Product
-from .forms import ProductForm
+class ProductViewSet(mixins.CreateModelMixin,
+                     mixins.RetrieveModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.ListModelMixin,
+                     viewsets.GenericViewSet):
 
-
-class ProductCreateView(CreateView):
-    model = Product
-    template_name = "products/create.html"
-    form_class = ProductForm
-    success_url = reverse_lazy('products:list')
-
-
-class ProductUpdateView(UpdateView):
-    model = Product
-    template_name = "products/update.html"
-    form_class = ProductForm
-    success_url = reverse_lazy('products:list')
-
-
-@DynamicOrderingDecorator()
-@DynamicPaginateBy()
-class ProductListView(ListView):
-    model = Product
-    template_name = "products/list.html"
-    context_object_name = 'products'
-
-
-class ProductDetailView(DetailView):
-    model = Product
-    template_name = "products/detail.html"
+    serializer_class = products.ProductSerializer
+    queryset = Product.objects.all()
