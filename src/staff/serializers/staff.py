@@ -24,7 +24,7 @@ class ListStaffSerializer(serializers.Serializer):
     groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
 
-class CreateStaffSerializaer(ListStaffSerializer):
+class ShowStaffSerializer(ListStaffSerializer):
 
     ci = serializers.CharField(
         validators=[UniqueValidator(queryset=Staff.objects.all())])
@@ -35,7 +35,10 @@ class CreateStaffSerializaer(ListStaffSerializer):
     address = serializers.CharField()
 
     def create(self, validated_data):
-        user = Staff.objects.create(**validated_data)
+        user = Staff.objects.create_user(**validated_data)
+        user.set_password('1234')
+        user.save()
+
         Profile.objects.create(staff=user)
 
         return user
@@ -61,17 +64,20 @@ class CreateStaffSerializaer(ListStaffSerializer):
         instance.save()
         return instance
 
-    # class StaffPasswordSerializer(serializers.Serializer):
 
-    #     # password = serializers.CharField(max_length=64, min_length=8)
-    #     # password_confirmation = serializers.CharField(
-    #     #     max_length=64, min_length=8)
+class StaffChangePasswordSerializer(serializers.Serializer):
 
-    #     # def validate(self, data):
-    #     #     psswd = data['password']
-    #     #     psswd_conf = data['password_confirmation']
-    #     #     if psswd != psswd_conf:
-    #     #         raise serializers.ValidationError("Password does not match.")
-    #     #     password_validation.validate_password(psswd)
+    old_password = serializers.CharField()
 
-    #     #     return data
+    password = serializers.CharField(
+        max_length=64, min_length=8, required=True)
+    password_confirmation = serializers.CharField(
+        max_length=64, min_length=8, required=True)
+
+    def validate(self, data):
+
+        if data['password'] != data['password_confirmation']:
+            raise serializers.ValidationError("Password does not match.")
+        password_validation.validate_password(data['password'])
+
+        return data

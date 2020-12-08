@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext, gettext_lazy as _
 
 
-from .models import Staff
+from .models import Staff, Profile
 from .forms import ChangeUserForm, CreateUserForm
 
 
@@ -28,3 +28,6 @@ class StaffAdmin(BaseUserAdmin):
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('username', 'first_name', 'last_name', 'email')
     readonly_fields = ('modified',)
+
+
+admin.site.register(Profile)

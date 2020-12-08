@@ -1,4 +1,4 @@
-class ShowCreateSerializerMixin(object):
+class ListCreateSerializerMixin(object):
     """
     Overrides get_serializer_class to choose the read serializer
     for GET requests and the write serializer for POST requests.
@@ -10,14 +10,15 @@ class ShowCreateSerializerMixin(object):
     write_serializer_class = None
 
     def get_serializer_class(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            return self.get_write_serializer_class()
 
-        elif (self.action == 'list'):
+        if (self.action == 'list'):
             return self.get_list_serializer_class()
 
+        else:
+            return self.get_write_serializer_class()
+
     def get_list_serializer_class(self):
-        assert self.read_serializer_class is not None, (
+        assert self.list_serializer_class is not None, (
             "'%s' should either include a `list_serializer_class` attribute,"
             "or override the `get_list_serializer_class()` method."
             % self.__class__.__name__
