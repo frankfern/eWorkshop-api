@@ -29,9 +29,9 @@ class BasicInfoModel(TimeModel):
     first_name = models.CharField(max_length=15)
     last_name = models.CharField(max_length=15)
     phone_number = models.CharField(
-        validators=[phone_regex], max_length=17, blank=False)
+        max_length=17, blank=False)
     cellphone_number = models.CharField(
-        validators=[phone_regex], max_length=17, blank=False)
+        max_length=17, blank=False)
 
     class Meta():
         abstract = True

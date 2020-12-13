@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.contrib.auth import get_user_model
 
-from ..serializers import ListStaffSerializer, ShowStaffSerializer, StaffChangePasswordSerializer
+from ..serializers import StaffChangePasswordSerializer, ListStaffSerializer, ShowStaffSerializer
 from ..models import Profile
 
 from utils.mixins import ListCreateSerializerMixin
@@ -25,6 +25,19 @@ class StaffViewSet(ListCreateSerializerMixin,
     queryset = Staff.objects.all()
     list_serializer_class = ListStaffSerializer
     write_serializer_class = ShowStaffSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.save()
+        user.set_password('1234')
+        user.save()
+
+        Profile.objects.create(staff=user)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @action(detail=True, methods=['put'], permission_classes=[IsAuthenticated])
     def change_password(self, request, pk=None):
