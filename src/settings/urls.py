@@ -18,10 +18,15 @@ from django.urls import path
 from django.urls.conf import include
 
 from rest_framework_simplejwt import views as jwt_views
+from rest_framework.permissions import AllowAny
+from rest_framework.documentation import include_docs_urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('docs/', include_docs_urls(title='api-workshop',
+                                    permission_classes=(AllowAny,))),
 
     path('api/v1/token/', jwt_views.TokenObtainPairView.as_view(),
          name='token_obtain_pair'),
@@ -29,8 +34,8 @@ urlpatterns = [
          name='token_refresh'),
 
     path('', include('staff.urls')),
-    path('suppliers/', include('suppliers.urls')),
-    path('customers/', include('customers.urls')),
-    path('stock/', include('stock.urls')),
-    path('services/', include('services.urls')),
+    path('api/v1/suppliers/', include('suppliers.urls')),
+    path('api/v1/customers/', include('customers.urls')),
+    path('api/v1/stock/', include('stock.urls')),
+    path('api/v1/services/', include('services.urls')),
 ]
