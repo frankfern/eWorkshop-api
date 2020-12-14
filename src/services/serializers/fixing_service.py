@@ -5,5 +5,6 @@ from ..models import FixService
 
 
 class FixServiceSerializer(serializers.ModelSerializer):
-    model = FixService
-    fields = '__all__'
+    class Meta:
+        model = FixService
+        fields = '__all__'

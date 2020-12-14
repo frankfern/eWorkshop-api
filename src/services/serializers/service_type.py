@@ -5,5 +5,6 @@ from ..models import ServiceType
 
 
 class ServiceTypeSerializer(serializers.ModelSerializer):
-    model = ServiceType
-    fields = '__all__'
+    class Meta:
+        model = ServiceType
+        fields = '__all__'

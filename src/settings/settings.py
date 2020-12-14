@@ -29,8 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-APPEND_SLASH = False
-
 
 # Application definition
 
@@ -73,8 +71,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-        'utils.permissions.HasPasswordChanged',
+        # 'rest_framework.permissions.IsAuthenticated',
+        # 'utils.permissions.HasPasswordChanged',
     ],
 
 }

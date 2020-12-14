@@ -5,5 +5,6 @@ from ..models import SellService
 
 
 class SellServiceSerializer(serializers.ModelSerializer):
-    model = SellService
-    fields = '__all__'
+    class Meta:
+        model = SellService
+        fields = '__all__'

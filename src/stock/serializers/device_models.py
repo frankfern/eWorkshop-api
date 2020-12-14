@@ -5,5 +5,6 @@ from ..models import DeviceModel
 
 
 class DeviceModelSerializer(serializers.ModelSerializer):
-    model = DeviceModel
-    fields = '__all__'
+    class Meta:
+        model = DeviceModel
+        fields = '__all__'

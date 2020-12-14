@@ -5,5 +5,6 @@ from ..models import SparePart
 
 
 class SparePartSerializer(serializers.ModelSerializer):
-    model = SparePart
-    fields = '__all__'
+    class Meta:
+        model = SparePart
+        fields = '__all__'
