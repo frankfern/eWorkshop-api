@@ -42,6 +42,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
 ]
 
 THIRD_PARTY_APPS = [
@@ -77,6 +78,9 @@ REST_FRAMEWORK = {
         'utils.permissions.HasPasswordChanged',
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
 
 }
 

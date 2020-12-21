@@ -1,13 +1,7 @@
 from django.contrib.auth import password_validation, get_user_model
-from django.contrib.auth.models import Group
-
 
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-
-
-from ..models import Profile
-from . import GroupSerializer
 
 
 Staff = get_user_model()

@@ -26,18 +26,11 @@ class StaffViewSet(ListCreateSerializerMixin,
     list_serializer_class = ListStaffSerializer
     write_serializer_class = ShowStaffSerializer
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
+    def perform_create(self, serializer):
         user = serializer.save()
         user.set_password('1234')
         user.save()
-
         Profile.objects.create(staff=user)
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @action(detail=True, methods=['put'], permission_classes=[IsAuthenticated])
     def change_password(self, request, pk=None):
