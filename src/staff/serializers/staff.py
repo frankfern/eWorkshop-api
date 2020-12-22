@@ -3,6 +3,8 @@ from django.contrib.auth import password_validation, get_user_model
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
+from .profile import ProfileSerializer
+
 
 Staff = get_user_model()
 
@@ -21,9 +23,21 @@ class ShowStaffSerializer(serializers.ModelSerializer):
         max_length=20,
         validators=[UniqueValidator(queryset=Staff.objects.all())])
 
+    profile = ProfileSerializer(read_only=True)
+
     class Meta:
         model = Staff
-        exclude = ('password',)
+        fields = (
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'phone_number',
+            'cellphone_number',
+            'address',
+            'ci',
+            'profile'
+        )
 
 
 class StaffChangePasswordSerializer(serializers.Serializer):

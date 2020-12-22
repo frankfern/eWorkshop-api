@@ -33,7 +33,7 @@ urlpatterns = [
     path('api/v1/token/refresh/', jwt_views.TokenRefreshView.as_view(),
          name='token_refresh'),
 
-    path('', include('staff.urls')),
+    path('api/v1/', include('staff.urls')),
     path('api/v1/suppliers/', include('suppliers.urls')),
     path('api/v1/customers/', include('customers.urls')),
     path('api/v1/stock/', include('stock.urls')),

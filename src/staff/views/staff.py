@@ -6,7 +6,10 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.contrib.auth import get_user_model
 
+from staff.serializers import profile
+
 from ..serializers import StaffChangePasswordSerializer, ListStaffSerializer, ShowStaffSerializer
+from ..serializers import profile as profile_serializer
 from ..models import Profile
 
 from utils.mixins import ListCreateSerializerMixin
@@ -25,12 +28,29 @@ class StaffViewSet(ListCreateSerializerMixin,
     queryset = Staff.objects.all()
     list_serializer_class = ListStaffSerializer
     write_serializer_class = ShowStaffSerializer
+    lookup_field = 'username'
 
     def perform_create(self, serializer):
         user = serializer.save()
         user.set_password('1234')
         user.save()
         Profile.objects.create(staff=user)
+
+    @action(detail=True, methods=['put', 'patch'])
+    def profile(self, request, *args, **kwargs):
+        """Update Profile Data"""
+        user = self.get_object()
+        profile = user.profile
+        partial = request.method == 'PATCH'
+        serializer = profile_serializer.ProfileSerializer(
+            profile,
+            data=request.data,
+            partial=partial
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        data = ShowStaffSerializer(user).data
+        return Response(data)
 
     @action(detail=True, methods=['put'], permission_classes=[IsAuthenticated])
     def change_password(self, request, pk=None):
