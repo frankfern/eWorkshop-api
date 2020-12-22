@@ -174,6 +174,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+# JWT
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
@@ -186,6 +188,8 @@ SIMPLE_JWT = {
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
-
-
 }
+
+# Media
+MEDIA_ROOT = BASE_DIR + 'media'
+MEDIA_URL = '/media/'
