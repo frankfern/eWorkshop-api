@@ -8,6 +8,7 @@ media/
 .vscode/
 test/
 users/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

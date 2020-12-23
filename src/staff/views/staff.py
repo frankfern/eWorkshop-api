@@ -1,8 +1,9 @@
-from rest_framework import viewsets, mixins
-from rest_framework.decorators import action
+from rest_framework import viewsets, mixins, status
+from rest_framework.decorators import action, parser_classes
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import FormParser, MultiPartParser
+
 
 from django.contrib.auth import get_user_model
 
@@ -36,7 +37,7 @@ class StaffViewSet(ListCreateSerializerMixin,
         user.save()
         Profile.objects.create(staff=user)
 
-    @action(detail=True, methods=['put', 'patch'])
+    @action(detail=True, methods=['put', 'patch'], parser_classes=(MultiPartParser, FormParser))
     def profile(self, request, *args, **kwargs):
         """Update Profile Data"""
         user = self.get_object()
