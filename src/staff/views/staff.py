@@ -54,11 +54,11 @@ class StaffViewSet(ListCreateSerializerMixin,
         return Response(data)
 
     @action(detail=True, methods=['put'], permission_classes=[IsAuthenticated])
-    def change_password(self, request, pk=None):
+    def change_password(self, request, *args, **kwargs):
 
         user = self.get_object()
         serializer = StaffChangePasswordSerializer(data=request.data)
-
+        serializer.is_valid(raise_exception=True)
         # check old password
         if not user.check_password(serializer.data.get('old_password')):
             return Response({
@@ -66,18 +66,15 @@ class StaffViewSet(ListCreateSerializerMixin,
             }, status=status.HTTP_400_BAD_REQUEST)
 
         else:
-            if serializer.is_valid():
-                user.set_password(serializer.data['password'])
-                user.save()
+            serializer.is_valid(raise_exception=True)
+            user.set_password(serializer.data['password'])
+            user.save()
 
-                profile = Profile.objects.get(staff_id=user.pk)
-                profile.is_password_changed = True
-                profile.save()
+            profile = Profile.objects.get(staff_id=user.pk)
+            profile.is_password_changed = True
+            profile.save()
 
-                return Response({'status': 'success',
-                                 'code': status.HTTP_200_OK,
-                                 'message': 'Password updated successfully'
-                                 }, status=status.HTTP_200_OK)
-            else:
-                return Response(serializer.errors,
-                                status=status.HTTP_400_BAD_REQUEST)
+            return Response({'status': 'success',
+                             'code': status.HTTP_200_OK,
+                             'message': 'Password updated successfully'
+                             }, status=status.HTTP_200_OK)
