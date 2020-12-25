@@ -16,11 +16,17 @@ class ContactViewSet(mixins.CreateModelMixin,
 
     def dispatch(self, request, *args, **kwargs):
 
-        pk = kwargs['client_id']
-        self.customer = get_object_or_404(Customer, id=pk)
+        self.customer_id = kwargs['client_id']
+        self.customer = get_object_or_404(Customer, id=self.customer_id)
 
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
 
-        return Contact.objects.filter(id=self.customer.id)
+        return Contact.objects.filter(id=self.customer_id)
+
+    def create(self, request, *args, **kwargs):
+
+        request.data['client'] = self.customer_id
+
+        return super().create(request, *args, **kwargs)

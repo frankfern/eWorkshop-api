@@ -177,17 +177,12 @@ STATIC_URL = '/static/'
 
 # JWT
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=500),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': False,
 
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
-    'VERIFYING_KEY': None,
-    'AUDIENCE': None,
-    'ISSUER': None,
+
 }
 
 # Media
