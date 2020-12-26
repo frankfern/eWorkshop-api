@@ -13,8 +13,6 @@ class BaseService(TimeModel):
 
     discount = models.FloatField(blank=True)
 
-    final_price = models.FloatField(blank=False)
-
     description = models.CharField(max_length=100, blank=True)
 
     has_warranty = models.BooleanField(default=False)

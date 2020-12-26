@@ -4,7 +4,6 @@ from ..serializers import brands
 
 
 class BrandViewSet(mixins.CreateModelMixin,
-                   mixins.RetrieveModelMixin,
                    mixins.UpdateModelMixin,
                    mixins.ListModelMixin,
                    viewsets.GenericViewSet):
