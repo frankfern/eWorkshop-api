@@ -1,11 +1,11 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-# from django.conf import settings
 from django.utils.translation import gettext, gettext_lazy as _
 
+from .models import Profile
 
-from .models import Staff, Profile
-from .forms import ChangeUserForm, CreateUserForm
+Staff = get_user_model()
 
 
 @admin.register(Staff)
@@ -21,8 +21,6 @@ class StaffAdmin(BaseUserAdmin):
          'fields': ('last_login', 'date_joined', 'modified')}),
     )
 
-    form = ChangeUserForm
-    add_form = CreateUserForm
     list_display = ('username', 'first_name',
                     'last_name', 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
