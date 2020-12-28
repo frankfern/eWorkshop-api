@@ -7,7 +7,7 @@ from rest_framework.parsers import FormParser, MultiPartParser
 
 from django.contrib.auth import get_user_model
 
-from staff.serializers import profile
+# from staff.serializers import profile
 
 from ..serializers import StaffChangePasswordSerializer, ListStaffSerializer, ShowStaffSerializer
 from ..serializers import profile as profile_serializer
