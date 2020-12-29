@@ -15,9 +15,10 @@ import environ
 from datetime import timedelta
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(
-    os.path.dirname((os.path.abspath(__file__)))))
+BASE_DIR = environ.Path(__file__) - 3
+APPS_DIR = BASE_DIR.path('eworkshop')
+
+env = environ.Env()
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 SECRET_KEY = '3&-!ch9-g%0w$eu3!()qr)6oy4hdq_t#$e*2rdwq1ya18+nop0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DJANGO_DEBUG', False)
 
 ALLOWED_HOSTS = []
 
@@ -54,11 +55,11 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
 
-    'staff',
-    'customers',
-    'suppliers',
-    'stock',
-    'services',
+    'eworkshop.staff',
+    'eworkshop.customers',
+    'eworkshop.suppliers',
+    'eworkshop.stock',
+    'eworkshop.services',
 ]
 
 
@@ -75,7 +76,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-        'utils.permissions.HasPasswordChanged',
+        'eworkshop.utils.permissions.HasPasswordChanged',
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 
@@ -181,10 +182,15 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
-
-
 }
 
+# Security
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+
+
 # Media
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = str(APPS_DIR('media'))
 MEDIA_URL = '/media/'

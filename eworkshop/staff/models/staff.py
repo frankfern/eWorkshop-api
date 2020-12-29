@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-from utils.models import AdvanceInfoModel
+from eworkshop.utils.models import AdvanceInfoModel
 
 
 class Staff(AdvanceInfoModel, AbstractUser):

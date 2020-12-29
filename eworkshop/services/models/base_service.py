@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import tree
 
-from utils.models import TimeModel
+from eworkshop.utils.models import TimeModel
 
 
 class BaseService(TimeModel):

@@ -35,10 +35,10 @@ urlpatterns = [
     path('api/v1/token/refresh/', jwt_views.TokenRefreshView.as_view(),
          name='token_refresh'),
 
-    path('api/v1/', include('staff.urls')),
-    path('api/v1/suppliers/', include('suppliers.urls')),
-    path('api/v1/customers/', include('customers.urls')),
-    path('api/v1/stock/', include('stock.urls')),
-    path('api/v1/services/', include('services.urls')),
+    path('api/v1/', include('eworkshop.staff.urls')),
+    path('api/v1/suppliers/', include('eworkshop.suppliers.urls')),
+    path('api/v1/customers/', include('eworkshop.customers.urls')),
+    path('api/v1/stock/', include('eworkshop.stock.urls')),
+    path('api/v1/services/', include('eworkshop.services.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

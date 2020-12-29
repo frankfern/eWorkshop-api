@@ -13,7 +13,7 @@ from ..serializers import StaffChangePasswordSerializer, ListStaffSerializer, Sh
 from ..serializers import profile as profile_serializer
 from ..models import Profile
 
-from utils.mixins import ListCreateSerializerMixin
+from eworkshop.utils.mixins import ListCreateSerializerMixin
 
 
 Staff = get_user_model()

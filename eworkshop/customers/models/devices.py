@@ -1,6 +1,6 @@
 from django.db import models
 
-from stock.models import BaseStock
+from eworkshop.stock.models import BaseStock
 
 
 class CustomerDevice(BaseStock):

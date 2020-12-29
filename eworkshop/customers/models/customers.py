@@ -1,4 +1,4 @@
-from utils.models import BasicInfoModel
+from eworkshop.utils.models import BasicInfoModel
 
 
 class Customer(BasicInfoModel):

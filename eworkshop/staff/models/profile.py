@@ -1,6 +1,6 @@
 from django.db import models
 
-from utils.models import TimeModel
+from eworkshop.utils.models import TimeModel
 
 
 class Profile(TimeModel):

@@ -1,4 +1,4 @@
-from utils.models import AdvanceInfoModel
+from eworkshop.utils.models import AdvanceInfoModel
 
 
 class Supplier(AdvanceInfoModel):

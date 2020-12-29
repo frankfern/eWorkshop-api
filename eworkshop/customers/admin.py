@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from customers.models.contacts import Contact
+from eworkshop.customers.models.contacts import Contact
 from .models import Customer, Contact, CustomerDevice
 
 # Register your models here.
