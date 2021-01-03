@@ -5,6 +5,7 @@ static/
 tmp/
 media/
 .venv/
+env/
 .vscode/
 test/
 users/

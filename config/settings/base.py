@@ -30,8 +30,6 @@ SECRET_KEY = '3&-!ch9-g%0w$eu3!()qr)6oy4hdq_t#$e*2rdwq1ya18+nop0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DJANGO_DEBUG', False)
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -124,10 +122,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': str(BASE_DIR('env/DB.cnf')),
+        },
     }
 }
+
 # Passwords
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',

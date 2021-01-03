@@ -13,7 +13,7 @@ class Profile(TimeModel):
         'profile picture',
         upload_to='staff/pictures',
         blank=True,
-        null=True
+        default=None
     )
     is_password_changed = models.BooleanField(default=False)
 
