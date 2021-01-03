@@ -48,5 +48,6 @@ docs/_build/
 # PyBuilder
 target/
 
-
+#DB
 *.sqlite3
+*.sql
