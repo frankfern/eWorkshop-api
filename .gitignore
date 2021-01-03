@@ -9,6 +9,7 @@ env/
 .vscode/
 test/
 users/
+.directory
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -51,3 +52,5 @@ target/
 #DB
 *.sqlite3
 *.sql
+
+#
