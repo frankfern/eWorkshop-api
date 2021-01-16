@@ -11,13 +11,13 @@ class BaseService(TimeModel):
 
     price = models.FloatField(blank=False)
 
-    discount = models.FloatField(blank=True)
+    discount = models.FloatField(blank=True, null=True)
 
     description = models.CharField(max_length=100, blank=True)
 
     has_warranty = models.BooleanField(default=False)
 
-    warrantyoff = models.DateField(editable=True, blank=False, null=False)
+    warrantyoff = models.DateField(editable=True, blank=True, null=True)
 
     class Meta:
         abstract = True

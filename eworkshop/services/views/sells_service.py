@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from ..models import SellService
 from ..serializers import SellServiceSerializer
+from eworkshop.services.models import BuyService
 
 
 class SellServiceViewSet(mixins.CreateModelMixin,
