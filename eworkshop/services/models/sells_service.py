@@ -11,13 +11,15 @@ class SellService(BaseService):
         'customers.Customer', on_delete=models.CASCADE)
     products = models.ManyToManyField(
         'stock.Product',
-        through='services.BuyService',
-        # through_fields=('service', 'product')
+        through='services.ServiceProduct',
+        through_fields=('service', 'product'),
+        serialize=True
     )
 
-    def get_total_price(self,):
+    @property
+    def total_amount(self,):
         self.price = sum([
-            ptb.quantity + ptb.product.price for ptb in self.products_related()
+            ptb.quantity * ptb.product.price for ptb in self.products_related()
         ])
         self.save()
 
@@ -25,9 +27,9 @@ class SellService(BaseService):
         return self.buyservice_set.select_related('product')
 
 
-# def update_totals(sender, instance, action, *args, **kwargs):
-#     if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
-#         instance.update_totals()
+def update_totals(sender, instance, action, *args, **kwargs):
+    if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
+        instance.update_totals()
 
 
-# m2m_changed.connect(update_totals, sender=SellService.products.through)
+m2m_changed.connect(update_totals, sender=SellService.products.through)

@@ -5,6 +5,9 @@ from ..models import SellService
 
 
 class SellServiceSerializer(serializers.ModelSerializer):
+    products = serializers.MultipleChoiceField(
+        queryset=SellService.objects.all())
+
     class Meta:
         model = SellService
-        fields = '__all__'
+        fields = ['customer', 'worker', 'products', 'price']

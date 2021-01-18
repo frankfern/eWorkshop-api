@@ -12,7 +12,6 @@ class ContactViewSet(mixins.CreateModelMixin,
                      viewsets.GenericViewSet):
 
     serializer_class = contacts.ContactSerializer
-    queryset = Contact.objects.all()
 
     def dispatch(self, request, *args, **kwargs):
 

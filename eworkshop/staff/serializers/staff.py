@@ -36,7 +36,8 @@ class ShowStaffSerializer(serializers.ModelSerializer):
             'cellphone_number',
             'address',
             'ci',
-            'profile'
+            'profile',
+            'groups'
         )
 
 

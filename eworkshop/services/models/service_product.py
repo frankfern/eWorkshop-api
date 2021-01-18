@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 from eworkshop.utils.models import TimeModel
 
 
-class BuyServiceManager(models.Manager):
+class ServiceProductManager(models.Manager):
     def create_or_update_quantity(self, service, product, quantity_bought=1):
         object, created = self.get_or_create(
             service=service, product=product
@@ -17,7 +17,7 @@ class BuyServiceManager(models.Manager):
         return object
 
 
-class BuyService(TimeModel):
+class ServiceProduct(TimeModel):
 
     service = models.ForeignKey(
         'services.SellService', on_delete=models.CASCADE)
@@ -25,7 +25,7 @@ class BuyService(TimeModel):
         'stock.Product', on_delete=models.CASCADE)
     quantity_bought = models.IntegerField(default=1)
 
-    objects = BuyServiceManager()
+    objects = ServiceProductManager()
 
     def __str__(self):
         return 'Compra: {} Product: {} Cant:{}'.format(
@@ -39,8 +39,8 @@ class BuyService(TimeModel):
         self.save()
 
 
-# def post_save_update_totals(sender, instance, *args, **kwargs):
-#     instance.service.update_totals()
+def post_save_update_totals(sender, instance, *args, **kwargs):
+    instance.service.total_amount()
 
 
-# post_save.connect(post_save_update_totals, sender=BuyService)
+post_save.connect(post_save_update_totals, sender=ServiceProduct)

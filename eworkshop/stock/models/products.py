@@ -1,7 +1,7 @@
 from django.db import models
 
 from .stock_base_model import StockModel
-from eworkshop.services.models import BuyService
+from eworkshop.services.models import ServiceProduct
 
 
 class Product(StockModel):
@@ -19,9 +19,10 @@ class Product(StockModel):
 
     @property
     def used_quantity(self):
-        quantity = BuyService.objects.filter(
+        quantity = ServiceProduct.objects.filter(
             product=self.id).aggregate(models.Sum('quantity_bought'))
         return quantity['quantity_bought__sum']
 
-    def get_real_quantity(self, used_quantity):
-        return self.quantity - used_quantity
+    @property
+    def get_real_quantity(self):
+        return self.quantity - self.used_quantity

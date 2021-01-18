@@ -4,4 +4,4 @@ from . import models
 admin.site.register(models.SellService)
 admin.site.register(models.FixService)
 admin.site.register(models.ServiceType)
-admin.site.register(models.BuyService)
+admin.site.register(models.ServiceProduct)

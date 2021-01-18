@@ -1,6 +1,5 @@
 from rest_framework import viewsets, mixins
 from ..models import Product
-from eworkshop.services.models import BuyService
 from ..serializers import products
 
 
