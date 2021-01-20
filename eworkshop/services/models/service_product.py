@@ -34,9 +34,9 @@ class ServiceProduct(TimeModel):
             self.quantity_bought
         )
 
-    def update_quantity(self, quantity=1):
-        self.quantity_bought = quantity
-        self.save()
+#     def update_quantity(self, quantity=1):
+#         self.quantity_bought = quantity
+#         self.save()
 
 
 def post_save_update_totals(sender, instance, *args, **kwargs):

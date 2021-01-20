@@ -1,3 +1,4 @@
+from django.core.checks import messages
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
@@ -14,14 +15,12 @@ class SellServiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SellService
-        fields = ['customer', 'worker', 'products', 'price']
+        fields = ['customer', 'worker', 'products', 'price', 'total_amount']
 
     @transaction.atomic
     def update(self, instance, validated_data):
         ServiceProduct.objects.filter(service=instance).delete()
         products = self.initial_data.get("products")
-        print(products)
-        print("mierda")
 
         for product in products:
             id = product.get("id")
@@ -40,16 +39,23 @@ class SellServiceSerializer(serializers.ModelSerializer):
         docstring
         """
         sell_service = SellService.objects.create(**validated_data)
-        print(self.initial_data.get("products"))
         if "products" in self.initial_data:
             products = self.initial_data.get("products")
             for product in products:
                 id = product.get("id")
-                print(id)
                 quantity = product.get("quantity_bought")
                 product_instance = get_object_or_404(Product, id=id)
-                print(product_instance)
                 ServiceProduct.objects.create(service=sell_service, product=product_instance,
                                               quantity_bought=quantity)
         sell_service.save()
         return sell_service
+
+    def validate(self, validated_data):
+
+        if not "products" in self.initial_data:
+            print("mierda2")
+
+            raise serializers.ValidationError(
+                detail="Introducir al menos un product")
+
+        return validated_data

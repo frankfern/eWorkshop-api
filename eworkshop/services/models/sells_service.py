@@ -28,9 +28,9 @@ class SellService(BaseService):
         return self.serviceproduct_set.select_related('product')
 
 
-def update_totals(sender, instance, action, *args, **kwargs):
-    if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
-        instance.update_totals()
+# def update_totals(sender, instance, action, *args, **kwargs):
+#     if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
+#         instance.update_totals()
 
 
-m2m_changed.connect(update_totals, sender=SellService.products.through)
+# m2m_changed.connect(update_totals, sender=SellService.products.through)
