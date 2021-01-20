@@ -1,13 +1,55 @@
+from django.db import transaction
 from rest_framework import serializers
+from rest_framework.generics import get_object_or_404
 
+from eworkshop.stock.models import Product
 
-from ..models import SellService
+from ..models import SellService, ServiceProduct
+from .service_product import ServiceProductSerializer
 
 
 class SellServiceSerializer(serializers.ModelSerializer):
-    products = serializers.MultipleChoiceField(
-        queryset=SellService.objects.all())
+    products = ServiceProductSerializer(
+        many=True, read_only=True, source='serviceproduct_set')
 
     class Meta:
         model = SellService
         fields = ['customer', 'worker', 'products', 'price']
+
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        ServiceProduct.objects.filter(service=instance).delete()
+        products = self.initial_data.get("products")
+        print(products)
+        print("mierda")
+
+        for product in products:
+            id = product.get("id")
+            quantity = product.get("quantity_bought")
+            new_product = get_object_or_404(Product, id=id)
+            ServiceProduct(service=instance, product=new_product,
+                           quantity_bought=quantity)
+
+        instance.__dict__.update(**validated_data)
+        instance.save()
+        return instance
+
+    @transaction.atomic
+    def create(self, validated_data):
+        """
+        docstring
+        """
+        sell_service = SellService.objects.create(**validated_data)
+        print(self.initial_data.get("products"))
+        if "products" in self.initial_data:
+            products = self.initial_data.get("products")
+            for product in products:
+                id = product.get("id")
+                print(id)
+                quantity = product.get("quantity_bought")
+                product_instance = get_object_or_404(Product, id=id)
+                print(product_instance)
+                ServiceProduct.objects.create(service=sell_service, product=product_instance,
+                                              quantity_bought=quantity)
+        sell_service.save()
+        return sell_service

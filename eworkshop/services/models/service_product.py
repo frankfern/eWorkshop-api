@@ -40,7 +40,7 @@ class ServiceProduct(TimeModel):
 
 
 def post_save_update_totals(sender, instance, *args, **kwargs):
-    instance.service.total_amount()
+    instance.service.total_amount
 
 
 post_save.connect(post_save_update_totals, sender=ServiceProduct)

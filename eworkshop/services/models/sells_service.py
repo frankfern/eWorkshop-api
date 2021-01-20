@@ -17,14 +17,15 @@ class SellService(BaseService):
     )
 
     @property
-    def total_amount(self,):
+    def total_amount(self):
         self.price = sum([
-            ptb.quantity * ptb.product.price for ptb in self.products_related()
+            ptb.quantity_bought * ptb.product.price for ptb in self.products_related()
         ])
         self.save()
+        return self.price
 
     def products_related(self):
-        return self.buyservice_set.select_related('product')
+        return self.serviceproduct_set.select_related('product')
 
 
 def update_totals(sender, instance, action, *args, **kwargs):

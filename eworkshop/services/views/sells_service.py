@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 
 
 from ..models import SellService
-from ..serializers import SellServiceSerializer
+from ..serializers.sells_service import SellServiceSerializer
 
 
 class SellServiceViewSet(mixins.CreateModelMixin,
