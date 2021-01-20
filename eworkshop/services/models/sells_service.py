@@ -16,7 +16,6 @@ class SellService(BaseService):
         serialize=True
     )
 
-    @property
     def total_amount(self):
         self.price = sum([
             ptb.quantity_bought * ptb.product.price for ptb in self.products_related()

@@ -1,9 +1,8 @@
-from django.core.checks import messages
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 
-from eworkshop.stock.models import Product, products
+from eworkshop.stock.models import Product
 
 from ..models import SellService, ServiceProduct
 from .service_product import ServiceProductSerializer
@@ -13,10 +12,14 @@ class SellServiceSerializer(serializers.ModelSerializer):
     products = ServiceProductSerializer(
         many=True, source='serviceproduct_set')
 
+    price = serializers.ReadOnlyField()
+
     class Meta:
         model = SellService
         fields = ['id', 'customer', 'worker',
-                  'products', 'price', 'total_amount']
+                  'products', 'price', 'discount',
+                  'description', 'has_warranty',
+                  'warrantyoff']
 
     @transaction.atomic
     def update(self, instance, validated_data):
