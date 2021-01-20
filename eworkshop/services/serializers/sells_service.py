@@ -15,7 +15,8 @@ class SellServiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SellService
-        fields = ['customer', 'worker', 'products', 'price', 'total_amount']
+        fields = ['id', 'customer', 'worker',
+                  'products', 'price', 'total_amount']
 
     @transaction.atomic
     def update(self, instance, validated_data):
@@ -26,8 +27,8 @@ class SellServiceSerializer(serializers.ModelSerializer):
             id = product.get("id")
             quantity = product.get("quantity_bought")
             new_product = get_object_or_404(Product, id=id)
-            ServiceProduct(service=instance, product=new_product,
-                           quantity_bought=quantity)
+            ServiceProduct.objects.create(service=instance, product=new_product,
+                                          quantity_bought=quantity)
 
         instance.__dict__.update(**validated_data)
         instance.save()
