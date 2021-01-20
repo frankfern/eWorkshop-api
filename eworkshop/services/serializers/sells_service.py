@@ -3,7 +3,7 @@ from django.db import transaction
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 
-from eworkshop.stock.models import Product
+from eworkshop.stock.models import Product, products
 
 from ..models import SellService, ServiceProduct
 from .service_product import ServiceProductSerializer
@@ -11,7 +11,7 @@ from .service_product import ServiceProductSerializer
 
 class SellServiceSerializer(serializers.ModelSerializer):
     products = ServiceProductSerializer(
-        many=True, read_only=True, source='serviceproduct_set')
+        many=True, source='serviceproduct_set')
 
     class Meta:
         model = SellService
@@ -51,12 +51,7 @@ class SellServiceSerializer(serializers.ModelSerializer):
         sell_service.save()
         return sell_service
 
-    def validate(self, validated_data):
-
+    def validate_products(self, validated_data):
         if not "products" in self.initial_data:
-            print("mierda2")
-
             raise serializers.ValidationError(
-                detail="Introducir al menos un product")
-
-        return validated_data
+                detail="You must send at least one product")
