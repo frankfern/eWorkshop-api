@@ -21,36 +21,28 @@ class SellServiceSerializer(serializers.ModelSerializer):
                   'description', 'has_warranty',
                   'warrantyoff']
 
-    @transaction.atomic
-    def update(self, instance, validated_data):
-        ServiceProduct.objects.filter(service=instance).delete()
+    def handle_products(self, service):
         products = self.initial_data.get("products")
 
         for product in products:
             id = product.get("id")
             quantity = product.get("quantity_bought")
             new_product = get_object_or_404(Product, id=id)
-            ServiceProduct.objects.create(service=instance, product=new_product,
+            ServiceProduct.objects.create(service=service, product=new_product,
                                           quantity_bought=quantity)
 
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        ServiceProduct.objects.filter(service=instance).delete()
+        self.handle_products(instance)
         instance.__dict__.update(**validated_data)
         instance.save()
         return instance
 
     @transaction.atomic
     def create(self, validated_data):
-        """
-        docstring
-        """
         sell_service = SellService.objects.create(**validated_data)
-        if "products" in self.initial_data:
-            products = self.initial_data.get("products")
-            for product in products:
-                id = product.get("id")
-                quantity = product.get("quantity_bought")
-                product_instance = get_object_or_404(Product, id=id)
-                ServiceProduct.objects.create(service=sell_service, product=product_instance,
-                                              quantity_bought=quantity)
+        self.handle_products(sell_service)
         sell_service.save()
         return sell_service
 
