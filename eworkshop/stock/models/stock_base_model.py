@@ -28,5 +28,17 @@ class StockModel(BaseStock):
     supplier = models.ForeignKey(
         'suppliers.Supplier', on_delete=models.PROTECT, null=True)
 
+    @property
+    def get_real_quantity(self):
+        return self.quantity - self.used_quantity
+
+    @property
+    def state(self):
+        if self.get_real_quantity() <= 0:
+            value = 'out_of_stock'
+        else:
+            value = 'available'
+        return value
+
     class Meta:
         abstract = True

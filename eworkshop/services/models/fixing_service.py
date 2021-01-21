@@ -19,4 +19,7 @@ class FixService(BaseService):
 
     status = models.CharField(max_length=20, choices=STATUS, default='pending')
 
-    resources = models.ManyToManyField('stock.Sparepart')
+    resources = models.ManyToManyField(
+        'stock.Sparepart',
+        through='services.FixSparepart',
+        through_fields=('service', 'sparepart'))
