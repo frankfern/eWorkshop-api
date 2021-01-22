@@ -22,4 +22,5 @@ class FixService(BaseService):
     resources = models.ManyToManyField(
         'stock.Sparepart',
         through='services.FixSparepart',
-        through_fields=('service', 'sparepart'))
+        through_fields=('service', 'sparepart')
+    )

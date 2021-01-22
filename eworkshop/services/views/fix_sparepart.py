@@ -1,4 +1,3 @@
-from eworkshop.stock.models import spareparts
 from rest_framework import viewsets, mixins, status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -41,4 +40,4 @@ class FixSparepartViewset(mixins.CreateModelMixin,
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

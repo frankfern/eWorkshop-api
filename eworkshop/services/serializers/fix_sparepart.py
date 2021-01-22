@@ -18,7 +18,7 @@ class FixSparepartSerializer(serializers.ModelSerializer):
         sparepart = validated_data['sparepart']
         quantity = validated_data['quantity']
 
-        fixsparepart = FixSparepart.objects.create(
+        fixsparepart = FixSparepart.objects.create_or_update_quantity(
             service=service,
             sparepart=sparepart,
             quantity=quantity
