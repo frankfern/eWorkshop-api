@@ -4,6 +4,8 @@ from ..models import Profile
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    is_password_changed = serializers.ReadOnlyField()
+
     class Meta:
         model = Profile
-        fields = ('picture',)
+        fields = ('picture', 'is_password_changed')

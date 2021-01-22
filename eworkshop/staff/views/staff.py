@@ -1,3 +1,4 @@
+from decimal import Context
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import action, parser_classes
 from rest_framework.response import Response
@@ -30,50 +31,34 @@ class StaffViewSet(ListCreateSerializerMixin,
     write_serializer_class = ShowStaffSerializer
     lookup_field = 'username'
 
-    def perform_create(self, serializer):
-        user = serializer.save()
-        user.set_password('1234')
-        user.save()
-        Profile.objects.create(staff=user)
-
-    @action(detail=True, methods=['put', 'patch'], parser_classes=(MultiPartParser, FormParser))
+    @action(detail=False, methods=['put', 'patch'], parser_classes=(MultiPartParser, FormParser))
     def profile(self, request, *args, **kwargs):
         """Update Profile Data"""
-        user = self.get_object()
-        profile = user.profile
+        user = request.user
         partial = request.method == 'PATCH'
+
         serializer = profile_serializer.ProfileSerializer(
-            profile,
+            user.profile,
             data=request.data,
             partial=partial
         )
+
         serializer.is_valid(raise_exception=True)
         serializer.save()
         data = ShowStaffSerializer(user).data
-        return Response(data)
+        return Response(data, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['put'], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['put'], permission_classes=[IsAuthenticated])
     def change_password(self, request, *args, **kwargs):
 
-        user = self.get_object()
-        serializer = StaffChangePasswordSerializer(data=request.data)
+        serializer = StaffChangePasswordSerializer(
+            data=request.data,
+            instance=request.user,
+        )
         serializer.is_valid(raise_exception=True)
-        # check old password
-        if not user.check_password(serializer.data.get('old_password')):
-            return Response({
-                "old_password": ["Wrong password"]
-            }, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
 
-        else:
-            serializer.is_valid(raise_exception=True)
-            user.set_password(serializer.data['password'])
-            user.save()
-
-            profile = Profile.objects.get(staff_id=user.pk)
-            profile.is_password_changed = True
-            profile.save()
-
-            return Response({'status': 'success',
-                             'code': status.HTTP_200_OK,
-                             'message': 'Password updated successfully'
-                             }, status=status.HTTP_200_OK)
+        return Response(data={'status': 'success',
+                              'code': status.HTTP_200_OK,
+                              'message': 'Password updated successfully'
+                              }, status=status.HTTP_200_OK)

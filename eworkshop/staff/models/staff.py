@@ -11,6 +11,13 @@ class Staff(AdvanceInfoModel, AbstractUser):
 
     REQUIRED_FIELDS = ['first_name', 'last_name', 'ci']
 
+    def __str__(self):
+        return self.first_name
 
-def __str__(self):
-    return self.first_name
+    def change_password(self):
+        profile = self.profile
+        profile.is_password_changed = True
+        profile.save()
+
+    # def create_profile(self):
+    #     Profile.objects.create(staff=self)

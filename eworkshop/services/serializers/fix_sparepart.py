@@ -6,7 +6,6 @@ from ..models import FixSparepart
 
 class FixSparepartSerializer(serializers.ModelSerializer):
     sparepart = serializers.ReadOnlyField(source="sparepart.id")
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = FixSparepart
