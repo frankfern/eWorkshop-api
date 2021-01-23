@@ -1,4 +1,11 @@
 -r base.txt
 
-# Dev
-autopep8==1.5.4
+
+# Code quality
+autopep8
+
+# Tools
+django-extensions
+
+# Debugging
+ipdb

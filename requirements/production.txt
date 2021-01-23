@@ -1,1 +1,5 @@
 -r base.txt
+
+
+# Static files
+whitenoise==4.1.2

@@ -18,6 +18,3 @@ class Staff(AdvanceInfoModel, AbstractUser):
         profile = self.profile
         profile.is_password_changed = True
         profile.save()
-
-    # def create_profile(self):
-    #     Profile.objects.create(staff=self)

@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 import environ
 from datetime import timedelta
@@ -19,19 +21,29 @@ APPS_DIR = BASE_DIR.path('eworkshop')
 
 env = environ.Env()
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3&-!ch9-g%0w$eu3!()qr)6oy4hdq_t#$e*2rdwq1ya18+nop0'
-
-# SECURITY WARNING: don't run with debug turned on in production!
+# Base
 DEBUG = env.bool('DJANGO_DEBUG', False)
 
 
-# Application definition
+# Internationalization
+# https://docs.djangoproject.com/en/3.0/topics/i18n/
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
 
+# URLs
+ROOT_URLCONF = 'config.urls'
+
+# Default User Model
+AUTH_USER_MODEL = 'staff.Staff'
+
+# WSGI
+WSGI_APPLICATION = 'config.wsgi.application'
+
+
+# Application definition
 DJANGO_APPS = [
 
     'django.contrib.admin',
@@ -47,6 +59,7 @@ THIRD_PARTY_APPS = [
 
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'django_filters',
 
 ]
 
@@ -68,6 +81,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
     ],
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
@@ -82,8 +98,6 @@ REST_FRAMEWORK = {
 
 }
 
-# Default User Model
-AUTH_USER_MODEL = 'staff.Staff'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -95,25 +109,34 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # str(APPS_DIR.path('templates')),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': DEBUG,
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 DATABASES = {
@@ -124,6 +147,7 @@ DATABASES = {
         },
     }
 }
+DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # Passwords
 PASSWORD_HASHERS = [
@@ -153,24 +177,23 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+# Static files
+STATIC_ROOT = str(BASE_DIR('staticfiles'))
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    str(APPS_DIR.path('static')),
+]
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+# Media
+MEDIA_ROOT = str(APPS_DIR('media'))
+MEDIA_URL = '/media/'
 
 
 # JWT
@@ -188,6 +211,9 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 
 
-# Media
-MEDIA_ROOT = str(APPS_DIR('media'))
-MEDIA_URL = '/media/'
+# # Email
+# EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
+#                     default='django.core.mail.backends.smtp.EmailBackend')
+
+# Admin
+ADMIN_URL = 'admin/'
