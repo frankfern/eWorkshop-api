@@ -29,9 +29,9 @@ class BasicInfoModel(TimeModel):
     first_name = models.CharField(max_length=15)
     last_name = models.CharField(max_length=15)
     phone_number = models.CharField(
-        max_length=17, blank=False)
+        max_length=17, blank=True, null=True)
     cellphone_number = models.CharField(
-        max_length=17, blank=False)
+        max_length=17, blank=False, null=True)
 
     class Meta():
         abstract = True
@@ -43,8 +43,8 @@ class AdvanceInfoModel(BasicInfoModel):
         regex='\d{1,11}$', message='Ci must have 11 numbers')
 
     address = models.CharField(max_length=30, null=False, blank=False)
-    ci = models.PositiveIntegerField(
-        validators=[ci_regex], unique=True, null=False, blank=False)
+    ci = models.CharField(
+        validators=[ci_regex], unique=True, null=False, blank=False, max_length=11)
 
     class Meta():
         abstract = True

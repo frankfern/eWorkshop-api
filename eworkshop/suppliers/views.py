@@ -6,7 +6,7 @@ from .models import Supplier
 from .serializers import SupplierSerializer
 
 
-class CustomerViewSet(mixins.CreateModelMixin,
+class SupplierViewSet(mixins.CreateModelMixin,
                       mixins.RetrieveModelMixin,
                       mixins.UpdateModelMixin,
                       mixins.ListModelMixin,
@@ -14,3 +14,5 @@ class CustomerViewSet(mixins.CreateModelMixin,
 
     serializer_class = SupplierSerializer
     queryset = Supplier.objects.all()
+    ordering_fields = '__all__'
+    filterset_fields = ['first_name', 'last_name', 'created', 'modified']

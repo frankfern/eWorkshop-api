@@ -30,6 +30,8 @@ class StaffViewSet(ListCreateSerializerMixin,
     list_serializer_class = ListStaffSerializer
     write_serializer_class = ShowStaffSerializer
     lookup_field = 'username'
+    ordering_fields = '__all__'
+    filterset_fields = ['created', 'modified', ]
 
     @action(detail=False, methods=['put', 'patch'], parser_classes=(MultiPartParser, FormParser))
     def profile(self, request, *args, **kwargs):

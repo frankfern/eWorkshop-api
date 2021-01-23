@@ -14,3 +14,5 @@ class SellServiceViewSet(mixins.CreateModelMixin,
 
     serializer_class = SellServiceSerializer
     queryset = SellService.objects.all()
+    ordering_fields = '__all__'
+    filterset_fields = ['created', 'modified', ]

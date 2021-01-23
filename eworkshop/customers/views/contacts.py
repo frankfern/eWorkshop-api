@@ -12,6 +12,8 @@ class ContactViewSet(mixins.CreateModelMixin,
                      viewsets.GenericViewSet):
 
     serializer_class = contacts.ContactSerializer
+    ordering_fields = '__all__'
+    filterset_fields = ['customer', 'created', 'modified']
 
     def dispatch(self, request, *args, **kwargs):
 

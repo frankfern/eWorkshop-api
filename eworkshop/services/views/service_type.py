@@ -14,3 +14,5 @@ class ServiceTypeViewSet(mixins.CreateModelMixin,
 
     serializer_class = ServiceTypeSerializer
     queryset = ServiceType.objects.all()
+    ordering_fields = '__all__'
+    filterset_fields = ['created', 'modified', ]

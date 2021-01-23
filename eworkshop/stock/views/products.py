@@ -11,3 +11,5 @@ class ProductViewSet(mixins.CreateModelMixin,
 
     serializer_class = products.ProductSerializer
     queryset = Product.objects.all()
+    ordering_fields = '__all__'
+    filterset_fields = ['created', 'modified', ]

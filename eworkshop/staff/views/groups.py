@@ -13,3 +13,4 @@ class GroupViewSet(mixins.CreateModelMixin,
 
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    filterset_fields = ['created', 'modified', ]
