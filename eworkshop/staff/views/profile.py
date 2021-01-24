@@ -9,7 +9,6 @@ from ..models import Profile
 
 class ProfileViews(RetrieveUpdateAPIView, generics.RetrieveUpdateAPIView):
 
-    parser_classes = (MultiPartParser, FormParser)
     queryset = Profile.objects.all()
     write_serializer_class = profile_serializer.ProfileSerializer
     list_serializer_class = ShowStaffSerializer

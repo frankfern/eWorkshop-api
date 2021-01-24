@@ -15,7 +15,7 @@ class ListStaffSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Staff
-        fields = ('first_name', 'last_name', 'username', 'is_active')
+        fields = ('id', 'first_name', 'last_name', 'username', 'is_active')
 
 
 class ShowStaffSerializer(serializers.ModelSerializer):
@@ -30,6 +30,7 @@ class ShowStaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = Staff
         fields = (
+            'id',
             'username',
             'first_name',
             'last_name',
