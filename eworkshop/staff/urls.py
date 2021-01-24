@@ -7,4 +7,7 @@ from . import views
 router = routers.SimpleRouter()
 router.register(r'staff', views.StaffViewSet)
 
-urlpatterns = router.urls
+urlpatterns = [
+    re_path('^staff/profile', views.ProfileViews.as_view())
+]
+urlpatterns += router.urls

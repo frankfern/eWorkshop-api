@@ -32,3 +32,14 @@ class ListCreateSerializerMixin(object):
             % self.__class__.__name__
         )
         return self.write_serializer_class
+
+
+class RetrieveUpdateAPIView(ListCreateSerializerMixin):
+
+    def get_serializer_class(self):
+
+        if (self.request.method == 'GET'):
+            return self.get_list_serializer_class()
+
+        else:
+            return self.get_write_serializer_class()

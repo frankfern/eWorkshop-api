@@ -16,5 +16,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         if validated_data['picture'] is None:
             instance.picture = "/images/avatar.jpg"
+        else:
+            instance.picture = validated_data['picture']
         instance.save()
         return instance
