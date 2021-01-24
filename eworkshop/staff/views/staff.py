@@ -31,6 +31,7 @@ class StaffViewSet(ListCreateSerializerMixin,
     write_serializer_class = ShowStaffSerializer
     lookup_field = 'username'
     ordering_fields = '__all__'
+    ordering = ['created']
     filterset_fields = ['created', 'modified', ]
 
     @action(detail=False, methods=['put', 'patch'], parser_classes=(MultiPartParser, FormParser))

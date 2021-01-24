@@ -12,3 +12,4 @@ class BrandViewSet(mixins.CreateModelMixin,
     queryset = Brand.objects.all()
     ordering_fields = '__all__'
     filterset_fields = ['created', 'modified', ]
+    ordering = ['created']

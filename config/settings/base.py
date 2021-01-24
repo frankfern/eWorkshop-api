@@ -93,16 +93,15 @@ REST_FRAMEWORK = {
         'eworkshop.utils.permissions.HasPasswordChanged',
     ],
     'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend'
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'eworkshop.utils.filters.MyOrderingFilter',
+        # 'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
     ],
     'SEARCH_PARAM': 'q',
-
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+    'DEFAULT_PAGINATION_CLASS': 'eworkshop.utils.pagination.MyPagination',
     'PAGE_SIZE': 10,
-
-
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 

@@ -15,4 +15,5 @@ class SupplierViewSet(mixins.CreateModelMixin,
     serializer_class = SupplierSerializer
     queryset = Supplier.objects.all()
     ordering_fields = '__all__'
+    ordering = ['created']
     filterset_fields = ['first_name', 'last_name', 'created', 'modified']

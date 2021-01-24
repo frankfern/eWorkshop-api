@@ -14,6 +14,7 @@ class FixSparepartViewset(mixins.CreateModelMixin,
 
     serializer_class = FixSparepartSerializer
     ordering_fields = '__all__'
+    ordering = ['created']
     filterset_fields = ['fix', 'sparepart',
                         'created', 'modified']
 
