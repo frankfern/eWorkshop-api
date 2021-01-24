@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 import environ
+# import django_heroku
 from datetime import timedelta
 
 
@@ -91,11 +92,16 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
         'eworkshop.utils.permissions.HasPasswordChanged',
     ],
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'eworkshop.utils.filters.MyOrderingFilter',
+        # 'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
+    ],
+    'SEARCH_PARAM': 'q',
+    'DEFAULT_PAGINATION_CLASS': 'eworkshop.utils.pagination.MyPagination',
     'PAGE_SIZE': 10,
-
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 
@@ -114,9 +120,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            # str(APPS_DIR.path('templates')),
+            str(APPS_DIR.path('templates')),
         ],
-        'APP_DIRS': True,
         'OPTIONS': {
             'debug': DEBUG,
             'loaders': [

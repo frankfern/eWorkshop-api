@@ -11,3 +11,6 @@ class DeviceModelViewSet(mixins.CreateModelMixin,
 
     serializer_class = device_models.DeviceModelSerializer
     queryset = DeviceModel.objects.all()
+    ordering_fields = '__all__'
+    ordering = ['created']
+    filterset_fields = ['created', 'modified', ]

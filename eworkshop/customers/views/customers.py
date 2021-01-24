@@ -14,3 +14,6 @@ class CustomerViewSet(mixins.CreateModelMixin,
 
     serializer_class = customers.CustomerCreateSerializer
     queryset = Customer.objects.all()
+    ordering = ['created']
+    ordering_fields = '__all__'
+    filterset_fields = ['first_name', 'last_name', 'created', 'modified']

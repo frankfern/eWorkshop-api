@@ -14,3 +14,7 @@ class FixServiceViewSet(mixins.CreateModelMixin,
 
     serializer_class = FixServiceSerializer
     queryset = FixService.objects.all()
+    ordering_fields = '__all__'
+    ordering = ['created']
+    filterset_fields = ['clients_device', 'service_type',
+                        'created', 'modified', 'status']

@@ -13,6 +13,10 @@ class FixSparepartViewset(mixins.CreateModelMixin,
                           viewsets.GenericViewSet):
 
     serializer_class = FixSparepartSerializer
+    ordering_fields = '__all__'
+    ordering = ['created']
+    filterset_fields = ['fix', 'sparepart',
+                        'created', 'modified']
 
     def dispatch(self, request, *args, **kwargs):
         service_id = kwargs['service_id']

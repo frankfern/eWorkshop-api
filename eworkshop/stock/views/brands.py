@@ -10,3 +10,6 @@ class BrandViewSet(mixins.CreateModelMixin,
 
     serializer_class = brands.BrandSerializer
     queryset = Brand.objects.all()
+    ordering_fields = '__all__'
+    filterset_fields = ['created', 'modified', ]
+    ordering = ['created']

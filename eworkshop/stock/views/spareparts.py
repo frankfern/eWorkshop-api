@@ -11,3 +11,6 @@ class SparePartViewSet(mixins.CreateModelMixin,
 
     serializer_class = spareparts.SparePartSerializer
     queryset = SparePart.objects.all()
+    ordering_fields = '__all__'
+    ordering = ['created']
+    filterset_fields = ['created', 'modified', ]
