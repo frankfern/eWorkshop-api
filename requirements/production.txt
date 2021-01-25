@@ -4,3 +4,6 @@ gunicorn==19.9.0
 
 # Static files
 whitenoise==4.1.2
+
+#BD
+psycopg2==2.8.6 --no-binary psycopg2

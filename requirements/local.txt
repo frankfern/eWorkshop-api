@@ -9,3 +9,6 @@ django-extensions
 
 # Debugging
 ipdb
+
+# DB
+mysqlclient==1.4.3

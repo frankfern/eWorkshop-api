@@ -18,5 +18,3 @@ coreapi==2.3.3
 # Environment
 django-environ==0.4.5
 
-# DB
-mysqlclient==1.4.3
