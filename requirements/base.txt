@@ -12,9 +12,6 @@ django-filter==2.4.0
 # Passwords security
 argon2-cffi==20.1.0
 
-# Documentation
-coreapi==2.3.3
-
 # Environment
 django-environ==0.4.5
 

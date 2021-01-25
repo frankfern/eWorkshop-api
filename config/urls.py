@@ -5,16 +5,10 @@ from django.conf.urls.static import static
 
 
 from rest_framework_simplejwt import views as jwt_views
-from rest_framework.permissions import AllowAny
-from rest_framework.documentation import include_docs_urls
 
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
-
-
-    path('docs/', include_docs_urls(title='api-workshop',
-                                    permission_classes=(AllowAny,))),
 
     path('api/v1/token/', jwt_views.TokenObtainPairView.as_view(),
          name='token_obtain_pair'),

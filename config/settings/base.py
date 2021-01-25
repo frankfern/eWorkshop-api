@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 import environ
-# import django_heroku
 from datetime import timedelta
 
 
@@ -95,7 +94,6 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
         'eworkshop.utils.filters.MyOrderingFilter',
-        # 'rest_framework.filters.OrderingFilter',
         'rest_framework.filters.SearchFilter',
     ],
     'SEARCH_PARAM': 'q',
@@ -222,3 +220,16 @@ X_FRAME_OPTIONS = 'DENY'
 
 # Admin
 ADMIN_URL = 'admin/'
+
+
+# SWAGGER_SETTINGS = {
+#     'DEFAULT_INFO': [
+#         'title': "Snippets API",
+#         'default_version': 'v1',
+#         description= "Test description",
+#         terms_of_service= "https://www.google.com/policies/terms/",
+#         contact= openapi.Contact(email="contact@snippets.local"),
+#         license = openapi.License(name="BSD License"),
+#     ]
+
+# }
