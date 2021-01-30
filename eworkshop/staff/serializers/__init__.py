@@ -3,7 +3,8 @@ from .groups import GroupSerializer
 from .staff import (
     ShowStaffSerializer,
     ListStaffSerializer,
-    StaffChangePasswordSerializer
+    StaffChangePasswordSerializer,
+    StaffResetPasswordConfirm
 )
 
 # from .profile import ProfileSerializer

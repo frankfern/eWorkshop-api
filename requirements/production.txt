@@ -7,3 +7,6 @@ whitenoise==5.2.0
 
 #BD
 psycopg2==2.8.6 --no-binary psycopg2
+
+# Email
+django-anymail[mailgun]

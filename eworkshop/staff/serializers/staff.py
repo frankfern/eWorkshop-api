@@ -1,10 +1,14 @@
 from django.contrib.auth import password_validation, get_user_model
-from django.http import request
 
 from rest_framework import serializers
+from rest_framework.generics import get_object_or_404
+from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
 from .profile import ProfileSerializer
+from ..signals import reset_password_token_created
+from ..tokens import EmailToken
 from ..models import Profile
 
 
@@ -51,9 +55,7 @@ class ShowStaffSerializer(serializers.ModelSerializer):
         return instance
 
 
-class StaffChangePasswordSerializer(serializers.Serializer):
-
-    old_password = serializers.CharField()
+class PasswordSerializer(serializers.Serializer):
 
     password = serializers.CharField(
         max_length=64, min_length=8, required=True)
@@ -66,13 +68,70 @@ class StaffChangePasswordSerializer(serializers.Serializer):
         password_validation.validate_password(data['password'])
         return data
 
-    def validate_old_password(self, value):
-        if not self.instance.check_password(value):
-            raise serializers.ValidationError("Old password is wrong")
+    def save(self):
+        password = self.validated_data['password']
+        self.instance.set_password(password)
+        self.instance.change_password()
+        self.instance.save()
 
-    def update(self, instance, validated_data):
-        password = validated_data['password']
-        instance.set_password(password)
-        instance.change_password()
-        instance.save()
-        return instance
+
+class StaffResetPasswordConfirm(PasswordSerializer):
+    token = serializers.CharField(required=True)
+
+    def validate_token(self, token):
+        try:
+            self.token_instance(token)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+        return token
+
+    def token_instance(self, token):
+        return EmailToken(token=token)
+
+    def get_token_user(self):
+        user_id = self.token_instance(
+            self.validated_data['token']).payload['user_id']
+        return get_object_or_404(Staff, **{'id': user_id, 'is_active': True})
+
+    def save(self):
+        self.instance = self.get_token_user()
+        super().save()
+
+
+class StaffChangePasswordSerializer(PasswordSerializer):
+
+    old_password = serializers.CharField()
+
+    def validate_old_password(self, value):
+
+        invalid_password_conditions = (
+            self.instance,
+            not self.instance.check_password(value)
+        )
+        if all(invalid_password_conditions):
+            msg = "Your old password was entered incorrectly. Please enter it again."
+            raise serializers.ValidationError(msg)
+        return value
+
+
+class StaffResetPasswordSerializer(serializers.Serializer):
+
+    email = serializers.EmailField(required=True)
+
+    @classmethod
+    def get_token(cls, user):
+        return EmailToken.for_user(user)
+
+    def validate_email(self, value):
+        query = Staff.objects.filter(is_active=True).filter(
+            profile__is_password_changed=True).filter(email__iexact=value)
+
+        if not query:
+            return ValidationError('There is no active user associated with this e-mail address or the password can not be changed')
+        else:
+            self.user = query[0]
+
+    def save(self):
+        token = self.get_token(self.user)
+        reset_password_token_created.send(
+            sender=self.__class__, instance=self, reset_password_token=token)

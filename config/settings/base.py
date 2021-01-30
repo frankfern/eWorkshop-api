@@ -20,6 +20,7 @@ BASE_DIR = environ.Path(__file__) - 3
 APPS_DIR = BASE_DIR.path('eworkshop')
 
 env = environ.Env()
+environ.Env.read_env(str(BASE_DIR('env/.env')))  # rea
 
 # Base
 DEBUG = env.bool('DJANGO_DEBUG', False)
@@ -161,9 +162,6 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptPasswordHasher',
 ]
 
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -213,23 +211,8 @@ CSRF_COOKIE_HTTPONLY = True
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 
-
-# # Email
-# EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
-#                     default='django.core.mail.backends.smtp.EmailBackend')
-
 # Admin
 ADMIN_URL = 'admin/'
 
 
-# SWAGGER_SETTINGS = {
-#     'DEFAULT_INFO': [
-#         'title': "Snippets API",
-#         'default_version': 'v1',
-#         description= "Test description",
-#         terms_of_service= "https://www.google.com/policies/terms/",
-#         contact= openapi.Contact(email="contact@snippets.local"),
-#         license = openapi.License(name="BSD License"),
-#     ]
-
-# }
+FRONT_URL = env('FRONT_URL', default="eworkshop.heroku.com")

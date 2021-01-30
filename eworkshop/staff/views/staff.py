@@ -1,12 +1,14 @@
+from eworkshop.staff.serializers.staff import StaffResetPasswordSerializer
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from django.contrib.auth import get_user_model
 
-from ..serializers import StaffChangePasswordSerializer, ListStaffSerializer, ShowStaffSerializer
+from ..serializers import StaffChangePasswordSerializer, ListStaffSerializer, ShowStaffSerializer, StaffResetPasswordConfirm
 from eworkshop.utils.viewmixins import ListCreateSerializerMixin
+from eworkshop.utils.utils import handle_serializers, fresponse
 
 
 Staff = get_user_model()
@@ -30,14 +32,25 @@ class StaffViewSet(ListCreateSerializerMixin,
     @action(detail=False, methods=['put'], permission_classes=[IsAuthenticated])
     def change_password(self, request, *args, **kwargs):
 
-        serializer = StaffChangePasswordSerializer(
-            data=request.data,
+        handle_serializers(
+            StaffChangePasswordSerializer,
             instance=request.user,
+            data=request.data,
         )
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        return fresponse('Password updated successfully')
 
-        return Response(data={'status': 'success',
-                              'code': status.HTTP_200_OK,
-                              'message': 'Password updated successfully'
-                              }, status=status.HTTP_200_OK)
+    @action(detail=False, methods=['post'], permission_classes=[AllowAny], url_name='password_reset')
+    def password_reset(self, request, *args, **kwargs):
+        handle_serializers(
+            StaffResetPasswordSerializer,
+            data=request.data,
+        )
+        return fresponse('Mail sended')
+
+    @action(detail=False, methods=['post'], permission_classes=[AllowAny])
+    def reset_password_confirm(self, request, *args, **kwargs):
+        handle_serializers(
+            StaffResetPasswordConfirm,
+            data=request.data,
+        )
+        return fresponse('Password Changed Succesfully')
