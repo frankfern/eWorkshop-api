@@ -20,3 +20,4 @@ def request_reset_password_email(email, token):
     msg = EmailMultiAlternatives(subject, content, from_email, [email])
     msg.attach_alternative(content, "text/html")
     msg.send()
+    print('sended')

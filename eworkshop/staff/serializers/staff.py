@@ -133,6 +133,4 @@ class StaffResetPasswordSerializer(serializers.Serializer):
 
     def save(self):
         token = self.get_token(self.user)
-        # print(token)
-
-        request_reset_password_email(self.user.email, str(token))
+        request_reset_password_email.delay(self.user.email, str(token))
