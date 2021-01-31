@@ -49,28 +49,19 @@ MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')  # noqa F405
 INSTALLED_APPS += ['gunicorn']  # noqa F405
 
 
-# # Cache
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': env('REDIS_URL1'),
-#         'OPTIONS': {
-#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#             'IGNORE_EXCEPTIONS': True,
-#         }
-#     }
-# }
+# Cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': env('REDIS_URL'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'IGNORE_EXCEPTIONS': True,
+        }
+    }
+}
 
 # Email
-DEFAULT_FROM_EMAIL = env(
-    'DJANGO_DEFAULT_FROM_EMAIL',
-    default='eWorkshop <noreply@eworkshop.com>'
-)
-SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
-EMAIL_SUBJECT_PREFIX = env(
-    'DJANGO_EMAIL_SUBJECT_PREFIX', default='[eWorkshop]')
-
-
 # Anymail (Mailgun)
 INSTALLED_APPS += ['anymail']  # noqa F405
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
@@ -78,3 +69,10 @@ ANYMAIL = {
     'MAILGUN_API_KEY': env.str('MAILGUN_API_KEY'),
     'MAILGUN_SENDER_DOMAIN': env.str('MAILGUN_DOMAIN')
 }
+DEFAULT_FROM_EMAIL = env(
+    'DJANGO_DEFAULT_FROM_EMAIL',
+    default='eWorkshop <noreply@'+ANYMAIL['MAILGUN_SENDER_DOMAIN']
+)
+SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
+EMAIL_SUBJECT_PREFIX = env(
+    'DJANGO_EMAIL_SUBJECT_PREFIX', default='[eWorkshop]')
