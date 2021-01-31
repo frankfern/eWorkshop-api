@@ -7,7 +7,7 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
 from .profile import ProfileSerializer
-from ..signals import reset_password_token_created
+from eworkshop.tasks.tasks import request_reset_password_email
 from ..tokens import EmailToken
 from ..models import Profile
 
@@ -133,5 +133,6 @@ class StaffResetPasswordSerializer(serializers.Serializer):
 
     def save(self):
         token = self.get_token(self.user)
-        reset_password_token_created.send(
-            sender=self.__class__, instance=self, reset_password_token=token)
+        # print(token)
+
+        request_reset_password_email(self.user.email, str(token))
