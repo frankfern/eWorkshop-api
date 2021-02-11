@@ -100,7 +100,6 @@ REST_FRAMEWORK = {
     'SEARCH_PARAM': 'q',
     'DEFAULT_PAGINATION_CLASS': 'eworkshop.utils.pagination.MyPagination',
     'PAGE_SIZE': 10,
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 
