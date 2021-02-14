@@ -6,5 +6,3 @@ from .staff import (
     StaffChangePasswordSerializer,
     StaffResetPasswordConfirm
 )
-
-# from .profile import ProfileSerializer
