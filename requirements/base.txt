@@ -1,8 +1,8 @@
 # Base
-Pillow==8.0.1
+Pillow==8.2.0
 
 # Django
-Django==3.1.3
+Django==3.1.12
 
 # Django REST Framework
 djangorestframework==3.12.2
